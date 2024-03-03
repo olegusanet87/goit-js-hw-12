@@ -7,13 +7,14 @@ import "izitoast/dist/css/iziToast.min.css";
 
 import Error from '../img/bi_x-octagon.svg';
 
+
 export function clearGallery() {
 	const gallery = document.getElementById('gallery');
 	gallery.innerHTML = '';
 }
 
 export function displayImages(images) {
-	clearGallery();
+
 
 	const gallery = document.querySelector('.gallery');
 	const fragment = document.createDocumentFragment();
@@ -78,16 +79,17 @@ export function displayImages(images) {
 
 		galleryItem.appendChild(infoContainer);
 		fragment.appendChild(galleryItem);
+
 	});
 
 	gallery.appendChild(fragment);
+
 	const lightbox = new SimpleLightbox('.gallery a', {
 		captionsData: 'alt',
 		captionDelay: 250
 	});
 
 }
-
 
 
 export function displayErrorMessage(message) {
