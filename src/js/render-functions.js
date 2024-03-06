@@ -1,6 +1,7 @@
 import SimpleLightbox from "simplelightbox";
 
 import "simplelightbox/dist/simple-lightbox.min.css";
+
 import iziToast from "izitoast";
 
 import "izitoast/dist/css/iziToast.min.css";
@@ -8,89 +9,41 @@ import "izitoast/dist/css/iziToast.min.css";
 import Error from '../img/bi_x-octagon.svg';
 
 
+
+
 export function clearGallery() {
-	const gallery = document.getElementById('gallery');
+	const gallery = document.getElementById('.gallery');
 	gallery.innerHTML = '';
 }
 
+
 export function displayImages(images) {
-
-
 	const gallery = document.querySelector('.gallery');
-	const fragment = document.createDocumentFragment();
+	const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
+		`<li class="gallery-item"> 
+		<div class="gallery-card">
+		<a class="gallery-link" "href="${largeImageURL}">
+            <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
+						</a>
+            <div class="image-details">
+                <p class="detail-value"><b>Likes:</b> ${likes}</p>
+                <p class="detail-value"><b>Views:</b> ${views}</p>
+                <p class="detail-value"><b>Comments:</b> ${comments}</p>
+                <p class="detail-value"><b>Downloads:</b> ${downloads}</p>
+            </div>
+						</div>
+        </li>`
+	).join("");
 
-	images.forEach(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-		const galleryItem = document.createElement('li');
-		galleryItem.classList.add('gallery-item');
+	gallery.insertAdjacentHTML("beforeend", markup);
 
-		const galleryLink = document.createElement('a');
-		galleryLink.classList.add('gallery-link');
-		galleryLink.href = `${largeImageURL}`;
-
-		const img = document.createElement('img');
-		img.classList.add('gallery-image');
-		img.src = `${webformatURL}`;
-		img.alt = tags;
-		galleryLink.appendChild(img);
-		galleryItem.appendChild(galleryLink);
-
-		const infoContainer = document.createElement('div');
-		infoContainer.classList.add('image-details');
-
-		const likesLabel = document.createElement('span');
-		likesLabel.classList.add('detail-label');
-		likesLabel.textContent = 'Likes:';
-		infoContainer.appendChild(likesLabel);
-
-		const likesValue = document.createElement('span');
-		likesValue.classList.add('detail-value');
-		likesValue.textContent = `${likes}`;
-		infoContainer.appendChild(likesValue);
-
-		const viewsLabel = document.createElement('span');
-		viewsLabel.classList.add('detail-label');
-		viewsLabel.textContent = 'Views:';
-		infoContainer.appendChild(viewsLabel);
-
-		const viewsValue = document.createElement('span');
-		viewsValue.classList.add('detail-value');
-		viewsValue.textContent = `${views}`;
-		infoContainer.appendChild(viewsValue);
-
-		const commentsLabel = document.createElement('span');
-		commentsLabel.classList.add('detail-label');
-		commentsLabel.textContent = 'Comments:';
-		infoContainer.appendChild(commentsLabel);
-
-		const commentsValue = document.createElement('span');
-		commentsValue.classList.add('detail-value');
-		commentsValue.textContent = `${comments}`;
-		infoContainer.appendChild(commentsValue);
-
-		const downloadsLabel = document.createElement('span');
-		downloadsLabel.classList.add('detail-label');
-		downloadsLabel.textContent = 'Downloads:';
-		infoContainer.appendChild(downloadsLabel);
-
-		const downloadsValue = document.createElement('span');
-		downloadsValue.classList.add('detail-value');
-		downloadsValue.textContent = `${downloads}`;
-		infoContainer.appendChild(downloadsValue);
-
-		galleryItem.appendChild(infoContainer);
-		fragment.appendChild(galleryItem);
-
-	});
-
-	gallery.appendChild(fragment);
 
 	const lightbox = new SimpleLightbox('.gallery a', {
 		captionsData: 'alt',
-		captionDelay: 250
+		captionDelay: 250,
 	});
 
 }
-
 
 export function displayErrorMessage(message) {
 	iziToast.error({

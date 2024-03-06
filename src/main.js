@@ -36,18 +36,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	const gallery = document.querySelector('.gallery');
 	loadMoreBtn = document.querySelector('.loadmore');
 	loadingMoreSpan = document.querySelector('.loading-more');
-
+	const lightbox = new SimpleLightbox('.gallery a', {
+		captionsData: 'alt',
+		captionDelay: 250,
+	});
 
 
 	form.addEventListener('submit', async (event) => {
 		event.preventDefault();
+		gallery.innerHTML = null;
 		searchTerm = input.value.trim();
+		const spanLoader = document.querySelector('.loader');
+		spanLoader.classList.add('loading');
 		if (searchTerm === '') {
 			displayErrorMessage('Please enter a search term.');
 			return;
 		}
 		page = 1;
 		await searchAndDisplayImages();
+		spanLoader.classList.remove('loading');
 	});
 
 	loadMoreBtn.addEventListener('click', async function () {
@@ -76,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function getHeight() {
 	const galleryItem = document.querySelector('.gallery-item');
 	if (galleryItem) {
-		const galleryItemHeight = galleryItem.getBoundingClientRect().height;
+		const galleryItemHeight = galleryItem.getBoundingClientRect().height*2;
 		console.log(galleryItemHeight);
 		return galleryItemHeight;
 	}
@@ -90,19 +97,28 @@ async function searchAndDisplayImages() {
 		const images = await searchImages(searchTerm, page);
 		const totalHits = images.totalHits;
 		const totalImage = page * 15;
+		//console.log(totalImage);
+		
+		if (images.length === 0) {
+			displayErrorMessage('Sorry, there are no images matching your search query. Please try again!');
+			return;
+		}
 
 		if (totalImage >= totalHits) {
 			loadMoreBtn.style.display = 'none';
 			displayErrorMessage("We're sorry, but you've reached the end of search results.");
-			console.log(images.totalHits);
+			console.log(images.length);
 
 			return;
 		}
 		displayImages(images);
-
+		
+		
 
 		if (images.length < 15) {
 			loadMoreBtn.style.display = 'none';
+			displayErrorMessage("We're sorry, but you've reached the end of search results.");
+
 		} else {
 			loadMoreBtn.style.display = 'block';
 		}
@@ -110,6 +126,7 @@ async function searchAndDisplayImages() {
 		displayErrorMessage('An error occurred while fetching data. Please try again later.');
 	} finally {
 		loadingMoreSpan.style.display = 'none';
+		
 	}
 }
 
