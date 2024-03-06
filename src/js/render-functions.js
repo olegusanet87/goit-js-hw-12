@@ -22,7 +22,7 @@ export function displayImages(images) {
 	const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) =>
 		`<li class="gallery-item"> 
 		<div class="gallery-card">
-		<a class="gallery-link" "href="${largeImageURL}">
+		<a class="gallery-link" href="${largeImageURL}">
             <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
 						</a>
             <div class="image-details">
