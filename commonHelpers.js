@@ -1,6 +1,6 @@
 import{a as b,S as f,i as L}from"./assets/vendor-da186403.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const l of o.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&s(l)}).observe(document,{childList:!0,subtree:!0});function a(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(e){if(e.ep)return;e.ep=!0;const o=a(e);fetch(e.href,o)}})();const w="https://pixabay.com/api/";async function S(t,r,a=15){const s="42541165-a3d46185342d32ff55345145c";try{return(await b.get(`${w}?key=${s}&q=${encodeURIComponent(t)}&page=${r}&per_page=${a}`)).data.hits}catch{throw new Error("Failed to fetch images from Pixabay API")}}const $="/goit-js-hw-12/assets/bi_x-octagon-80ee8afe.svg";function q(t){const r=document.querySelector(".gallery"),a=t.map(({webformatURL:s,largeImageURL:e,tags:o,likes:l,views:p,comments:h,downloads:v})=>`<li class="gallery-item"> 
 		<div class="gallery-card">
-		<a class="gallery-link" "href="${e}">
+		<a class="gallery-link" href="${e}">
             <img class="gallery-image" src="${s}" alt="${o}" />
 						</a>
             <div class="image-details">
